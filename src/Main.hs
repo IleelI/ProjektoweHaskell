@@ -13,26 +13,27 @@ isRightTriangle a b c =
 isSumOfNumber :: (Integral n, Eq n) => n -> n -> n -> n -> Bool
 isSumOfNumber a b c number = a + b + c == number
 
-areDifferentTriplets :: (Integral n) => n -> n -> n -> Bool
-areDifferentTriplets a b c = a /= b && a /= c && b /= c
+areDifferentTriples :: (Integral n) => n -> n -> n -> Bool
+areDifferentTriples a b c = a /= b && a /= c && b /= c
 
-getTripletsOfNumber :: (Integral n) => n -> [(n, n, n)]
-getTripletsOfNumber number =
+getTriplesOfNumber :: (Integral n) => n -> [(n, n, n)]
+getTriplesOfNumber number =
   [ (a, b, c)
     | a <- [1 .. number],
       b <- [1 .. number],
       c <- [1 .. number],
       isRightTriangle a b c
         && isSumOfNumber a b c number
-        && areDifferentTriplets a b c
+        && areDifferentTriples a b c
   ]
 
 getAllNumbers :: (Integral n) => n -> [(Int, n)]
-getAllNumbers number = [(length (getTripletsOfNumber n), n) | n <- [1 .. number]]
+getAllNumbers number = [(length (getTriplesOfNumber n), n) | n <- [1 .. number]]
 
 main :: IO ()
 main = do
   putStrLn "Enter any natural number: "
   input <- getLine
   let results = getAllNumbers (read input :: Int)
-  print results
+  let maxNumber = maximum results
+  print (snd maxNumber)
